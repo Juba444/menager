@@ -1,8 +1,8 @@
 #include "passwordstorage.h"
 
 #include <QFile>
-#include <QJsonDocument>
 #include <QJsonArray>
+#include <QJsonDocument>
 #include <QJsonObject>
 
 PasswordStorage::PasswordStorage()
@@ -17,10 +17,10 @@ void PasswordStorage::load()
 
     QFile file(fileName);
 
-    if(!file.exists())
+    if (!file.exists())
         return;
 
-    if(!file.open(QIODevice::ReadOnly))
+    if (!file.open(QIODevice::ReadOnly))
         return;
 
     QByteArray data = file.readAll();
@@ -29,7 +29,7 @@ void PasswordStorage::load()
     QJsonDocument doc = QJsonDocument::fromJson(data);
     QJsonArray array = doc.array();
 
-    for(const QJsonValue &value : array) {
+    for (const QJsonValue &value : array) {
         QJsonObject obj = value.toObject();
 
         PasswordEntry entry;
@@ -39,7 +39,6 @@ void PasswordStorage::load()
         entry.login = obj["login"].toString();
         entry.password = obj["password"].toString();
 
-
         entries.append(entry);
     }
 }
@@ -48,14 +47,13 @@ void PasswordStorage::save()
 {
     QJsonArray array;
 
-    for(const PasswordEntry &entry : entries) {
+    for (const PasswordEntry &entry : entries) {
         QJsonObject obj;
 
         obj["id"] = entry.id;
         obj["portal"] = entry.portal;
         obj["login"] = entry.login;
         obj["password"] = entry.password;
-
 
         array.append(obj);
     }
@@ -64,7 +62,7 @@ void PasswordStorage::save()
 
     QFile file(fileName);
 
-    if(!file.open(QIODevice::WriteOnly))
+    if (!file.open(QIODevice::WriteOnly))
         return;
 
     file.write(doc.toJson());
@@ -82,9 +80,8 @@ QVector<PasswordEntry> PasswordStorage::getEntries() const
 }
 void PasswordStorage::deleteEntry(int id)
 {
-    for(int i = 0; i < entries.size(); i++) {
-
-        if(entries[i].id == id) {
+    for (int i = 0; i < entries.size(); i++) {
+        if (entries[i].id == id) {
             entries.remove(i);
             break;
         }
@@ -92,12 +89,10 @@ void PasswordStorage::deleteEntry(int id)
 
     save();
 }
-void PasswordStorage::updateEntry(int id,
-                                  const PasswordEntry &entry)
+void PasswordStorage::updateEntry(int id, const PasswordEntry &entry)
 {
-    for(int i = 0; i < entries.size(); i++) {
-
-        if(entries[i].id == id) {
+    for (int i = 0; i < entries.size(); i++) {
+        if (entries[i].id == id) {
             entries[i] = entry;
             break;
         }

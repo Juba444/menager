@@ -1,8 +1,8 @@
 #ifndef PASSWORDSTORAGE_H
 #define PASSWORDSTORAGE_H
 
-#include "passwordentry.h"
 #include <QVector>
+#include "passwordentry.h"
 
 class PasswordStorage
 {

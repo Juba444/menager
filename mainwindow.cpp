@@ -1,10 +1,10 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include "passwordgenerator.h"
-#include "xml_exporter.h"
 #include "csv_exporter.h"
+#include "passwordgenerator.h"
 #include "passwordstorage.h"
+#include "xml_exporter.h"
 
 #include <QFileDialog>
 #include <QMessageBox>
@@ -29,21 +29,16 @@ void MainWindow::loadTable()
 
     QVector<PasswordEntry> entries = storage.getEntries();
 
-    for(int i = 0; i < entries.size(); i++) {
-
+    for (int i = 0; i < entries.size(); i++) {
         ui->tableWidget->insertRow(i);
 
-        ui->tableWidget->setItem(i, 0,
-                                 new QTableWidgetItem(QString::number(entries[i].id)));
+        ui->tableWidget->setItem(i, 0, new QTableWidgetItem(QString::number(entries[i].id)));
 
-        ui->tableWidget->setItem(i, 1,
-                                 new QTableWidgetItem(entries[i].portal));
+        ui->tableWidget->setItem(i, 1, new QTableWidgetItem(entries[i].portal));
 
-        ui->tableWidget->setItem(i, 2,
-                                 new QTableWidgetItem(entries[i].login));
+        ui->tableWidget->setItem(i, 2, new QTableWidgetItem(entries[i].login));
 
-        ui->tableWidget->setItem(i, 3,
-                                 new QTableWidgetItem(entries[i].password));
+        ui->tableWidget->setItem(i, 3, new QTableWidgetItem(entries[i].password));
     }
 }
 
@@ -53,8 +48,8 @@ int MainWindow::generateId()
 
     int maxId = 0;
 
-    for(const PasswordEntry &entry : entries) {
-        if(entry.id > maxId)
+    for (const PasswordEntry &entry : entries) {
+        if (entry.id > maxId)
             maxId = entry.id;
     }
 
@@ -70,17 +65,18 @@ void MainWindow::on_addButton_clicked()
     entry.login = ui->loginEdit->text();
     entry.password = ui->passwordEdit->text();
 
-
     storage.addEntry(entry);
 
     loadTable();
+    ui->portalEdit->clear();
+    ui->loginEdit->clear();
+    ui->passwordEdit->clear();
 }
 void MainWindow::on_deleteButton_clicked()
 {
     int row = ui->tableWidget->currentRow();
 
-    if(row < 0)
-    {
+    if (row < 0) {
         return;
     }
     int id = ui->tableWidget->item(row, 0)->text().toInt();
@@ -88,41 +84,35 @@ void MainWindow::on_deleteButton_clicked()
     storage.deleteEntry(id);
 
     loadTable();
+    ui->portalEdit->clear();
+    ui->loginEdit->clear();
+    ui->passwordEdit->clear();
 }
 
 void MainWindow::on_generateButton_clicked()
 {
-    ui->passwordEdit->setText(
-        PasswordGenerator::generate()
-        );
+    ui->passwordEdit->setText(PasswordGenerator::generate());
 }
 
 void MainWindow::on_exportXmlButton_clicked()
 {
-    QString fileName = QFileDialog::getSaveFileName(
-        this,
-        "Eksport XML",
-        "passwords.xml",
-        "XML (*.xml)"
-        );
+    QString fileName = QFileDialog::getSaveFileName(this,
+                                                    "Eksport XML",
+                                                    "passwords.xml",
+                                                    "XML (*.xml)");
 
-    if(fileName.isEmpty())
+    if (fileName.isEmpty())
         return;
 
-    XmlExporter::exportToXml(
-        storage.getEntries(),
-        fileName
-        );
+    XmlExporter::exportToXml(storage.getEntries(), fileName);
 
-    QMessageBox::information(this,
-                             "Sukces",
-                             "Wyeksportowano XML");
+    QMessageBox::information(this, "Sukces", "Wyeksportowano XML");
 }
 void MainWindow::on_updateButton_clicked()
 {
     int row = ui->tableWidget->currentRow();
 
-    if(row < 0)
+    if (row < 0)
         return;
 
     int id = ui->tableWidget->item(row, 0)->text().toInt();
@@ -137,25 +127,34 @@ void MainWindow::on_updateButton_clicked()
     storage.updateEntry(id, entry);
 
     loadTable();
+    ui->portalEdit->clear();
+    ui->loginEdit->clear();
+    ui->passwordEdit->clear();
 }
 void MainWindow::on_exportCsvButton_clicked()
 {
-    QString fileName = QFileDialog::getSaveFileName(
-        this,
-        "Eksport CSV",
-        "passwords.csv",
-        "CSV (*.csv)"
-        );
+    QString fileName = QFileDialog::getSaveFileName(this,
+                                                    "Eksport CSV",
+                                                    "passwords.csv",
+                                                    "CSV (*.csv)");
 
-    if(fileName.isEmpty())
+    if (fileName.isEmpty())
         return;
 
-    CsvExporter::exportToCsv(
-        storage.getEntries(),
-        fileName
-        );
+    CsvExporter::exportToCsv(storage.getEntries(), fileName);
 
-    QMessageBox::information(this,
-                             "Sukces",
-                             "Wyeksportowano CSV");
+    QMessageBox::information(this, "Sukces", "Wyeksportowano CSV");
+}
+void MainWindow::on_tableWidget_cellClicked(int row, int column)
+{
+    Q_UNUSED(column);
+    ui->portalEdit->setText(
+        ui->tableWidget->item(row, 1)->text()
+        );
+    ui->loginEdit->setText(
+        ui->tableWidget->item(row, 2)->text()
+        );
+    ui->passwordEdit->setText(
+        ui->tableWidget->item(row, 3)->text()
+        );
 }

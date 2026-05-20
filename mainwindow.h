@@ -28,6 +28,7 @@ private slots:
     void on_generateButton_clicked();
     void on_exportXmlButton_clicked();
     void on_exportCsvButton_clicked();
+    void on_tableWidget_cellClicked(int row, int column);
 
 private:
     Ui::MainWindow *ui;

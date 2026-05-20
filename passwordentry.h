@@ -9,7 +9,6 @@ struct PasswordEntry
     QString portal;
     QString login;
     QString password;
-
 };
 
 #endif

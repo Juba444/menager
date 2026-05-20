@@ -23,6 +23,9 @@
       <height>41</height>
      </rect>
     </property>
+    <property name="placeholderText">
+     <string>portal</string>
+    </property>
    </widget>
    <widget class="QLineEdit" name="loginEdit">
     <property name="geometry">
@@ -33,6 +36,9 @@
       <height>41</height>
      </rect>
     </property>
+    <property name="placeholderText">
+     <string>login</string>
+    </property>
    </widget>
    <widget class="QLineEdit" name="passwordEdit">
     <property name="geometry">
@@ -42,6 +48,9 @@
       <width>391</width>
       <height>41</height>
      </rect>
+    </property>
+    <property name="placeholderText">
+     <string>hasło</string>
     </property>
    </widget>
    <widget class="QPushButton" name="generateButton">
@@ -165,7 +174,7 @@
      <x>0</x>
      <y>0</y>
      <width>1219</width>
-     <height>21</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>

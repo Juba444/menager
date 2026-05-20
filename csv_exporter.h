@@ -1,14 +1,13 @@
 #ifndef CSV_EXPORTER_H
 #define CSV_EXPORTER_H
 
-#include "passwordentry.h"
 #include <QVector>
+#include "passwordentry.h"
 
 class CsvExporter
 {
 public:
-    static bool exportToCsv(const QVector<PasswordEntry> &entries,
-                            const QString &fileName);
+    static bool exportToCsv(const QVector<PasswordEntry> &entries, const QString &fileName);
 };
 
 #endif
